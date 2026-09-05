@@ -19,6 +19,10 @@ public class TransactionService{
     public List<Transaction> getAllTrnansactions(){
         return repo.findAll();
     }
+    public Transaction getTransactionById(Long id){
+        Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Does Not Exist"));
+        return t;
+    }
     public Transaction saveTransaction(Transaction t){
         if(t.getAmount() < 0) throw new IllegalArgumentException("Transaction Amount Should be Greater Than 0");
         return repo.save(t);
