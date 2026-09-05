@@ -19,7 +19,7 @@ public class TransactionService{
     public List<Transaction> getAllTrnansactions(){
         return repo.findAll();
     }
-    public Transaction SaveTransaction(Transaction t){
+    public Transaction saveTransaction(Transaction t){
         if(t.getAmount() < 0) throw new IllegalArgumentException("Transaction Amount Should be Greater Than 0");
         return repo.save(t);
     }
