@@ -1,4 +1,5 @@
 package com.finance.tracker.entity; 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ public class Transaction{
     private Long id;
     @Enumerated(EnumType.STRING)
     private TransactionType type;
-    private double amount;
+    private BigDecimal amount;
     private String category;
     private LocalDate date;
 
