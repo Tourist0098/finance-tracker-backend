@@ -30,7 +30,7 @@ public class Transaction{
     public TransactionType getType(){
         return type;
     }
-    public double getAmount(){
+    public BigDecimal getAmount(){
         return amount;
     }
     public String getCategory(){
@@ -44,7 +44,7 @@ public class Transaction{
     public void setType(TransactionType t){
         this.type = t;
     }
-    public void setAmount(double a){
+    public void setAmount(BigDecimal a){
         this.amount = a;
     }
     public void setCategory(String c){

@@ -1,5 +1,6 @@
 package com.finance.tracker.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class TransactionService{
         return t;
     }
     public Transaction saveTransaction(Transaction t){
-        if(t.getAmount() < 0) throw new IllegalArgumentException("Transaction Amount Should be Greater Than 0");
+        if(t.getAmount() == null || t.getAmount().compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Transaction Amount Should be Greater Than 0");
         return repo.save(t);
     }
     public void deleteTransaction(Long id){
@@ -44,7 +45,7 @@ public class TransactionService{
         t.setCategory(cat);
         return repo.save(t);
     }
-    public Transaction updateAmount(Long id, double amnt){
+    public Transaction updateAmount(Long id, BigDecimal amnt){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Was Not Found"));
         t.setAmount(amnt);
         return repo.save(t);
