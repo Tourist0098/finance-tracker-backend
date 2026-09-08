@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.finance.tracker.dto.TransactionRequestDTO;
+import com.finance.tracker.dto.TransactionResponseDTO;
 import com.finance.tracker.entity.Transaction;
 import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.repository.TransactionRepository;
@@ -17,47 +19,71 @@ public class TransactionService{
         this.repo = repo;
     }
 
-    public List<Transaction> getAllTrnansactions(){
-        return repo.findAll();
+    private TransactionResponseDTO mapToResponseDTO(Transaction t){
+        return new TransactionResponseDTO(
+            t.getId(),
+            t.getAmount(),
+            t.getType(),
+            t.getCategory(),
+            t.getDate()
+        );
     }
-    public Transaction getTransactionById(Long id){
+
+    public List<TransactionResponseDTO> getAllTransactions(){
+        return repo.findAll().stream().map(this::mapToResponseDTO).toList();
+    }
+    public TransactionResponseDTO  getTransactionById(Long id){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Does Not Exist"));
-        return t;
+        return mapToResponseDTO(t);
     }
-    public Transaction saveTransaction(Transaction t){
-        if(t.getAmount() == null || t.getAmount().compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Transaction Amount Should be Greater Than 0");
-        return repo.save(t);
+    public TransactionResponseDTO saveTransaction(TransactionRequestDTO request){
+        if(request.amount() == null || request.amount().compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Transaction Amount is Not Valid");
+
+        Transaction t = new Transaction();
+        t.setAmount(request.amount());
+        t.setCategory(request.category());
+        t.setType(request.type());
+        t.setDate(request.date());
+
+        Transaction s = repo.save(t);
+
+        return mapToResponseDTO(s);
     }
     public void deleteTransaction(Long id){
         if(!repo.existsById(id)) throw new IllegalArgumentException("Transaction with ID: "+id+" is Not Fount");
         repo.deleteById(id);
     }
-    public Transaction update(Long id, Transaction nt){
+    public TransactionResponseDTO update(Long id, TransactionRequestDTO request){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction With ID: "+id+" Was Not Found"));
-        t.setAmount(nt.getAmount());
-        t.setCategory(nt.getCategory());
-        t.setDate(nt.getDate());
-        t.setType(nt.getType());
-        return repo.save(t);
+        t.setAmount(request.amount());
+        t.setCategory(request.category());
+        t.setDate(request.date());
+        t.setType(request.type());
+        repo.save(t);
+        return mapToResponseDTO(t);
     }
-    public Transaction updateCategory(Long id, String cat){
+    public TransactionResponseDTO updateCategory(Long id, String cat){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction With ID: "+id+" Was Not Found"));
         t.setCategory(cat);
-        return repo.save(t);
+        repo.save(t);
+        return mapToResponseDTO(t);
     }
-    public Transaction updateAmount(Long id, BigDecimal amnt){
+    public TransactionResponseDTO updateAmount(Long id, BigDecimal amnt){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Was Not Found"));
         t.setAmount(amnt);
-        return repo.save(t);
+        repo.save(t);
+        return mapToResponseDTO(t);
     }
-    public Transaction updateDate(Long id, LocalDate d){
+    public TransactionResponseDTO updateDate(Long id, LocalDate d){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Was Not Found"));
         t.setDate(d);
-        return repo.save(t);
+        repo.save(t);
+        return mapToResponseDTO(t);
     }
-    public Transaction updateType(Long id, TransactionType ty){
+    public TransactionResponseDTO updateType(Long id, TransactionType ty){
         Transaction t = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Transaction By ID: "+id+" Was Not Found"));
         t.setType(ty);
-        return repo.save(t);
+        repo.save(t);
+        return mapToResponseDTO(t);
     }
 }
