@@ -75,8 +75,8 @@ public class  TransactionController{
         return ResponseEntity.ok(serv.updateCategory(id, cat));
     }
     @PatchMapping("/{id}/amount")
-    public ResponseEntity<Transaction> updateAmount(@PathVariable Long Id, @RequestBody BigDecimal amnt){
-        return ResponseEntity.ok(serv.updateAmount(Id, amnt));
+    public ResponseEntity<Transaction> updateAmount(@PathVariable Long id, @RequestBody BigDecimal amnt){
+        return ResponseEntity.ok(serv.updateAmount(id, amnt));
     }
     @PatchMapping("/{id}/type")
     public ResponseEntity<Transaction> updateType(@PathVariable Long id, @RequestBody TransactionType ty){
