@@ -1,5 +1,6 @@
 package com.finance.tracker.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.service.TransactionService;
 
 @RestController
-@RequestMapping("/api/v1/Tansaction")
+@RequestMapping("/api/v1/Transaction")
 public class  TransactionController{
     private final TransactionService serv;
     public TransactionController(TransactionService serv){
@@ -44,7 +45,7 @@ public class  TransactionController{
         return ResponseEntity.ok(t);
     }
     @GetMapping("/{id}/amount")
-    public ResponseEntity<Double> getAmountById(@PathVariable Long id){
+    public ResponseEntity<BigDecimal> getAmountById(@PathVariable Long id){
         Transaction t = serv.getTransactionById(id);
         return ResponseEntity.ok(t.getAmount());
     }
@@ -74,7 +75,7 @@ public class  TransactionController{
         return ResponseEntity.ok(serv.updateCategory(id, cat));
     }
     @PatchMapping("/{id}/amount")
-    public ResponseEntity<Transaction> updateAmount(@PathVariable Long Id, @RequestBody Double amnt){
+    public ResponseEntity<Transaction> updateAmount(@PathVariable Long Id, @RequestBody BigDecimal amnt){
         return ResponseEntity.ok(serv.updateAmount(Id, amnt));
     }
     @PatchMapping("/{id}/type")
