@@ -21,6 +21,8 @@ import com.finance.tracker.dto.TransactionResponseDTO;
 import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.service.TransactionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/transaction")
 public class  TransactionController{
@@ -30,7 +32,7 @@ public class  TransactionController{
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody TransactionRequestDTO t){
+    public ResponseEntity<TransactionResponseDTO> createTransaction(@Valid @RequestBody TransactionRequestDTO t){
         return new ResponseEntity<>(serv.saveTransaction(t), HttpStatus.CREATED);
     }
 
@@ -60,24 +62,24 @@ public class  TransactionController{
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionResponseDTO> update(@PathVariable Long id, @RequestBody TransactionRequestDTO t){
+    public ResponseEntity<TransactionResponseDTO> update(@PathVariable Long id, @Valid @RequestBody TransactionRequestDTO t){
         return new ResponseEntity<>(serv.update(id, t), HttpStatus.OK);
     }
     
     @PatchMapping("/{id}/category")
-    public ResponseEntity<TransactionResponseDTO> updateCategory(@PathVariable Long id, @RequestBody String cat){
+    public ResponseEntity<TransactionResponseDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody String cat){
         return new ResponseEntity<>(serv.updateCategory(id, cat), HttpStatus.OK);
     }
     @PatchMapping("/{id}/amount")
-    public ResponseEntity<TransactionResponseDTO> updateAmount(@PathVariable Long id, @RequestBody BigDecimal amnt){
+    public ResponseEntity<TransactionResponseDTO> updateAmount(@PathVariable Long id, @Valid @RequestBody BigDecimal amnt){
         return new ResponseEntity<>(serv.updateAmount(id, amnt), HttpStatus.OK);
     }
     @PatchMapping("/{id}/type")
-    public ResponseEntity<TransactionResponseDTO> updateType(@PathVariable Long id, @RequestBody TransactionType type){
+    public ResponseEntity<TransactionResponseDTO> updateType(@PathVariable Long id, @Valid @RequestBody TransactionType type){
         return new ResponseEntity<>(serv.updateType(id, type), HttpStatus.OK);
     }
     @PatchMapping("/{id}/date")
-    public ResponseEntity<TransactionResponseDTO> updateDate(@PathVariable Long id, @RequestBody LocalDate date){
+    public ResponseEntity<TransactionResponseDTO> updateDate(@PathVariable Long id, @Valid @RequestBody LocalDate date){
         return new ResponseEntity<>(serv.updateDate(id, date), HttpStatus.OK);
     }
 
