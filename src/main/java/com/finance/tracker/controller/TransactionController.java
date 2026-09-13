@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.finance.tracker.entity.Transaction;
+import com.finance.tracker.dto.TransactionRequestDTO;
+import com.finance.tracker.dto.TransactionResponseDTO;
 import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.service.TransactionService;
 
 @RestController
-@RequestMapping("/api/v1/Transaction")
+@RequestMapping("/api/v1/transaction")
 public class  TransactionController{
     private final TransactionService serv;
     public TransactionController(TransactionService serv){
@@ -29,67 +30,60 @@ public class  TransactionController{
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction t){
-        Transaction s = serv.saveTransaction(t);
-        return ResponseEntity.status(HttpStatus.CREATED).body(s);
+    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody TransactionRequestDTO t){
+        return new ResponseEntity<>(serv.saveTransaction(t), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> getAllTransactions(){
-        List<Transaction> li = serv.getAllTrnansactions();
-        return ResponseEntity.ok(li);
+    public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions(){
+        return new ResponseEntity<>(serv.getAllTransactions(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransaction(@PathVariable Long id){
-        Transaction t = serv.getTransactionById(id);
-        return ResponseEntity.ok(t);
+    public ResponseEntity<TransactionResponseDTO> getTransaction(@PathVariable Long id){
+        return new ResponseEntity<>(serv.getTransactionById(id), HttpStatus.OK);
     }
     @GetMapping("/{id}/amount")
     public ResponseEntity<BigDecimal> getAmountById(@PathVariable Long id){
-        Transaction t = serv.getTransactionById(id);
-        return ResponseEntity.ok(t.getAmount());
+        return new ResponseEntity<>(serv.getTransactionById(id).amount(), HttpStatus.OK);
     }
     @GetMapping("/{id}/category")
     public ResponseEntity<String> getCategoryById(@PathVariable Long id){
-        Transaction t = serv.getTransactionById(id);
-        return ResponseEntity.ok(t.getCategory());
+        return new ResponseEntity<>(serv.getTransactionById(id).category(), HttpStatus.OK);
     }
     @GetMapping("/{id}/type")
     public ResponseEntity<TransactionType> getTypeById(@PathVariable Long id){
-        Transaction t = serv.getTransactionById(id);
-        return ResponseEntity.ok(t.getType());
+        return new ResponseEntity<>(serv.getTransactionById(id).type(), HttpStatus.OK);
     }
     @GetMapping("/{id}/date")
     public ResponseEntity<LocalDate> getDateById(@PathVariable Long id){
-        Transaction t = serv.getTransactionById(id);
-        return ResponseEntity.ok(t.getDate());        
+        return new ResponseEntity<>(serv.getTransactionById(id).date(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> update(@PathVariable Long id, @RequestBody Transaction t){
-        return ResponseEntity.ok(serv.update(id, t));
+    public ResponseEntity<TransactionResponseDTO> update(@PathVariable Long id, @RequestBody TransactionRequestDTO t){
+        return new ResponseEntity<>(serv.update(id, t), HttpStatus.OK);
     }
     
     @PatchMapping("/{id}/category")
-    public ResponseEntity<Transaction> updateCategory(@PathVariable Long id, @RequestBody String cat){
-        return ResponseEntity.ok(serv.updateCategory(id, cat));
+    public ResponseEntity<TransactionResponseDTO> updateCategory(@PathVariable Long id, @RequestBody String cat){
+        return new ResponseEntity<>(serv.updateCategory(id, cat), HttpStatus.OK);
     }
     @PatchMapping("/{id}/amount")
-    public ResponseEntity<Transaction> updateAmount(@PathVariable Long id, @RequestBody BigDecimal amnt){
-        return ResponseEntity.ok(serv.updateAmount(id, amnt));
+    public ResponseEntity<TransactionResponseDTO> updateAmount(@PathVariable Long id, @RequestBody BigDecimal amnt){
+        return new ResponseEntity<>(serv.updateAmount(id, amnt), HttpStatus.OK);
     }
     @PatchMapping("/{id}/type")
-    public ResponseEntity<Transaction> updateType(@PathVariable Long id, @RequestBody TransactionType ty){
-        return ResponseEntity.ok(serv.updateType(id, ty));
+    public ResponseEntity<TransactionResponseDTO> updateType(@PathVariable Long id, @RequestBody TransactionType type){
+        return new ResponseEntity<>(serv.updateType(id, type), HttpStatus.OK);
     }
     @PatchMapping("/{id}/date")
-    public ResponseEntity<Transaction> updateDate(@PathVariable Long id, @RequestBody LocalDate d){
-        return ResponseEntity.ok(serv.updateDate(id, d));
+    public ResponseEntity<TransactionResponseDTO> updateDate(@PathVariable Long id, @RequestBody LocalDate date){
+        return new ResponseEntity<>(serv.updateDate(id, date), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id){
         serv.deleteTransaction(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
