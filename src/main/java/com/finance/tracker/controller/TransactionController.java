@@ -23,6 +23,10 @@ import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.service.TransactionService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
@@ -69,19 +73,19 @@ public class  TransactionController{
     }
     
     @PatchMapping("/{id}/category")
-    public ResponseEntity<TransactionResponseDTO> updateCategory(@PathVariable Long id, @RequestBody String cat){
+    public ResponseEntity<TransactionResponseDTO> updateCategory(@PathVariable Long id, @RequestBody @NotBlank(message="Category can't be Empty") String cat){
         return new ResponseEntity<>(serv.updateCategory(id, cat), HttpStatus.OK);
     }
     @PatchMapping("/{id}/amount")
-    public ResponseEntity<TransactionResponseDTO> updateAmount(@PathVariable Long id, @RequestBody BigDecimal amnt){
+    public ResponseEntity<TransactionResponseDTO> updateAmount(@PathVariable Long id, @RequestBody @NotNull(message="Amount can not be Empty") @Positive(message="Amount must be greater than Zero") BigDecimal amnt){
         return new ResponseEntity<>(serv.updateAmount(id, amnt), HttpStatus.OK);
     }
     @PatchMapping("/{id}/type")
-    public ResponseEntity<TransactionResponseDTO> updateType(@PathVariable Long id, @RequestBody TransactionType type){
+    public ResponseEntity<TransactionResponseDTO> updateType(@PathVariable Long id, @RequestBody @NotNull(message="Transaction type is mandatory") TransactionType type){
         return new ResponseEntity<>(serv.updateType(id, type), HttpStatus.OK);
     }
     @PatchMapping("/{id}/date")
-    public ResponseEntity<TransactionResponseDTO> updateDate(@PathVariable Long id,  @RequestBody LocalDate date){
+    public ResponseEntity<TransactionResponseDTO> updateDate(@PathVariable Long id,  @RequestBody @NotNull(message="Date is Mandatory") @PastOrPresent(message="Transaction date can not be in The Future") LocalDate date){
         return new ResponseEntity<>(serv.updateDate(id, date), HttpStatus.OK);
     }
 
