@@ -22,14 +22,14 @@ A RESTful backend service built with Spring Boot and Java to manage financial tr
 <details>
     <summary>[Sep 26, 2026] Phase 1.5: 2.Global Exception Handling</summary>
     * Standardized Error Contracts:
-        created `ErrorResponseDTO.java`java class to return a structured and consistent JSON response(timestamp, status, message, field-errors) upon API failures
+        created ```ErrorResponseDTO.java```java class to return a structured and consistent JSON response(timestamp, status, message, field-errors) upon API failures
     * Global Exception Handler: 
-        created `java GlobalExceptionHandler.java` class to intercept all exceptions
+        created ```GlobalExceptionHandler.java``` class to intercept all exceptions
     * Validation Handling: 
-        configured method for `java MethodArgumentNotValidException` to intercept full-object DTO validation errors(`java @Valid` on POST/PUT)
-        configured method for ConstarintViolationException to inercept validation errors on primitive fields(`java @Validated` on PATCH)
+        configured method for ```MethodArgumentNotValidException``` to intercept full-object DTO validation errors(```@Valid``` on POST/PUT)
+        configured method for ConstarintViolationException to inercept validation errors on primitive fields(```@Validated``` on PATCH)
     * ResourceNotFoundException:
-        created customn `java ResourceNotFound.java` to deal with missing DB records
+        created customn ```ResourceNotFound.java``` to deal with missing DB records
     * Service Layer Refactoring:
-        removed redundant manula validations and replaced `java IllegalArgumentException` with `java ResourceNotFoundException`
+        removed redundant manula validations and replaced ```IllegalArgumentException``` with ```ResourceNotFoundException```
 </details>
