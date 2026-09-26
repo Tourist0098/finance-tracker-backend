@@ -31,5 +31,5 @@ A RESTful backend service built with Spring Boot and Java to manage financial tr
     * ResourceNotFoundException:
         created customn ``` ResourceNotFound.java ``` to deal with missing DB records
     * Service Layer Refactoring:
-        removed redundant manula validations and replaced ``` IllegalArgumentException ``` with ``` ResourceNotFoundException ```
+        removed redundant manula validations and replaced ``` IllegalArgumentException ``` with `ResourceNotFoundException`
 </details>
