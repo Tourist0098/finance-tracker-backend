@@ -13,7 +13,10 @@ import com.finance.tracker.entity.TransactionType;
 import com.finance.tracker.exception.ResourceNotFoundException;
 import com.finance.tracker.repository.TransactionRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class TransactionService{
     private final TransactionRepository repo;
     public TransactionService(TransactionRepository repo){
