@@ -37,3 +37,18 @@ A RESTful backend service built with Spring Boot and Java to manage financial tr
   removed redundant manual validations and replaced `IllegalArgumentException` with `ResourceNotFoundException`
 
 </details>
+
+<details>
+<summary>[Sep 28, 2026] Phase 1.5: 3. Database Relational Mapping</summary>
+
+* **User Entity Foundation:** 
+    Created `User.java` to act as the primary owner of all financial data, laying the groundwork for multi-tenant architecture and authentication.
+* **Bidirectional JPA Relationships:** 
+    * Implemented `@ManyToOne(fetch = FetchType.LAZY)` on the `Transaction` entity to optimize server memory by preventing automatic, heavy `JOIN` queries.
+  * Implemented `@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)` on the `User` entity to manage the lifecycle of transactions.
+* **Data Integrity Enforcement:** 
+    Secured the database schema using `@JoinColumn(name = "user_id", nullable = false)`, enforcing strict referential integrity at the PostgreSQL level to mathematically prevent orphaned transactions or "ghost data."
+  * **Service Layer Atomicity:** 
+    Applied `@Transactional` to `TransactionService` to enforce the Atomicity ACID property. This guarantees that all service methods execute as a single, indivisible database transaction, automatically rolling back to prevent partial data corruption in the event of an application fault.
+
+</details>
