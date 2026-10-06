@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +33,9 @@ public class User {
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
     public User(){}
     public User(String username, String email, String password){
         this.username = username;
@@ -49,4 +54,7 @@ public class User {
     
     public String getPassword(){ return password; }
     public void setPassword(String password){ this.password = password; }
+    
+    public Role getRole(){ return role; }
+    public void setRole(Role role){ this.role = role; }
 }
