@@ -53,15 +53,25 @@ A RESTful backend service built with Spring Boot and Java to manage financial tr
 
 </details>
 <details>
-<summary>[Oct 6, 2026] Phase 1.5: 4. Authentication & Authorization</summary>
+<summary>[Oct 6, 2026] Phase 1.5: 4. Authentication & Authorization | Database Bridge</summary>
 
-## [Oct 6, 2026] - Spring Security Foundation & Database Bridge (Part 1)
-- **Architecture**: Explored Spring IoC (Inversion of Control), Singleton Bean lifecycle, and the Servlet Filter Chain (the "Toll Booth" model).
-- **SecurityConfig**: Configured basic `@Bean` for `SecurityFilterChain`, disabling CSRF and temporarily allowing all requests (`permitAll()`) for dev routing.
-- **Database Bridge**: 
-  - Created `Role` enum (`USER`, `ADMIN`).
-  - Implemented `UserRepository` using `Optional<User>` to safely handle null database returns.
-  - Built `CustomUserDetails` adapter to translate the PostgreSQL `User` entity into Spring Security's strict `UserDetails` interface.
-- **Java Internals**: Deep dive into `Supplier` interfaces, lazy evaluation in `.orElseThrow()`, and Bounded Wildcards in Generics (`? extends GrantedAuthority`).
+* **Architecture**:
+    Explored Spring IoC (Inversion of Control), Singleton Bean lifecycle, and the Servlet Filter Chain (the "Toll Booth" model).
+* **SecurityConfig**:
+    Configured basic `@Bean` for `SecurityFilterChain`, disabling CSRF and temporarily allowing all requests (`permitAll()`) for dev routing.
+* **Database Bridge**: 
+    - Created `Role` enum (`USER`, `ADMIN`).
+    - Implemented `UserRepository` using `Optional<User>` to safely handle null database returns.
+    - Built `CustomUserDetails` adapter to translate the PostgreSQL `User` entity into Spring Security's  strict `UserDetails` interface.
+* **Java Internals**:
+    Deep dive into `Supplier` interfaces, lazy evaluation in `.orElseThrow()`, and Bounded Wildcards in Generics (`? extends GrantedAuthority`).
+
+</details>
+
+<details>
+<summary>[Oct 7, 2026] - Spring Security: The Authentication Engine</summary>
+
+* **Core Engine**:
+    Built `CustomUserDetailsService` to fetch database records and wrap them in the `CustomUserDetails` adapter.
 
 </details>
